@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : area
+Design : rfile
+Version: U-2022.12
+Date   : Mon Jul 31 02:31:39 2023
+****************************************
+
+Library(s) Used:
+
+    osu018_stdcells (File: /student/home/lib/osu_stdcells/lib/tsmc018/lib/osu018_stdcells.db)
+
+Number of ports:                          113
+Number of nets:                          5996
+Number of cells:                         5947
+Number of combinational cells:           4923
+Number of sequential cells:              1024
+Number of macros/black boxes:               0
+Number of buf/inv:                        745
+Number of references:                      11
+
+Combinational area:             128424.000000
+Buf/Inv area:                    14608.000000
+Noncombinational area:           98304.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                226728.000000
+Total area:                 undefined
+1
