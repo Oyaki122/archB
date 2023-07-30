@@ -6,9 +6,9 @@ Warning: Design has unannotated sequential cell outputs. (PWR-415)
 ****************************************
 Report : power
         -analysis_effort low
-Design : rfile
+Design : rv32i
 Version: U-2022.12
-Date   : Mon Jul 31 02:31:40 2023
+Date   : Mon Jul 31 05:13:59 2023
 ****************************************
 
 
@@ -35,12 +35,12 @@ Attributes
 i - Including register clock pin internal power
 
 
-  Cell Internal Power  = 260.3984 mW   (90%)
-  Net Switching Power  =  29.8243 mW   (10%)
+  Cell Internal Power  =  38.6596 mW   (91%)
+  Net Switching Power  =   3.9189 mW    (9%)
                          ---------
-Total Dynamic Power    = 290.2228 mW  (100%)
+Total Dynamic Power    =  42.5786 mW  (100%)
 
-Cell Leakage Power     = 394.0463 nW
+Cell Leakage Power     = 825.5233 nW
 
 
                  Internal         Switching           Leakage            Total
@@ -49,10 +49,10 @@ Power Group      Power            Power               Power              Power  
 io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
-clock_network    238.1552            0.0000            0.0000          238.1552  (  82.06%)  i
-register           1.9314            0.6645          159.6262            2.5961  (   0.89%)
+clock_network     35.2037            0.0000            0.0000           35.2037  (  82.68%)  i
+register           0.8036            0.2635          288.2795            1.0672  (   2.51%)
 sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
-combinational     20.3119           29.1598          234.4201           49.4721  (  17.05%)
+combinational      2.6524            3.6555          537.2438            6.3085  (  14.82%)
 --------------------------------------------------------------------------------------------------
-Total            260.3986 mW        29.8243 mW       394.0463 nW       290.2234 mW
+Total             38.6597 mW         3.9190 mW       825.5233 nW        42.5794 mW
 1

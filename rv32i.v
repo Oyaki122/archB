@@ -26,9 +26,9 @@ module rv32i (
   wire [`DATA_W-1:0] pcbranch;
   wire branchMiss;
 
-  reg [1:0] bra_history[0:15];
-  wire [3:0] bra_history_address;
-  reg [3:0] bra_history_addressD;
+  reg [1:0] bra_history[0:31];
+  wire [4:0] bra_history_address;
+  reg [4:0] bra_history_addressD;
 
   wire [12:0] imm_bF;
   wire [2:0] funct3F;
@@ -42,9 +42,9 @@ module rv32i (
 
   assign pre_bra_op = (opcodeF == `OP_BRA);
   assign pcbranch = pcplus4 + {sextF[18:0], imm_bF};
-  assign bra_history_address = pc[5:2];
+  assign bra_history_address = pc[6:2];
   wire bra_history_now;
-  assign bra_history_now = bra_history[bra_history_address];
+  assign bra_history_now = bra_history[bra_history_address][1];
 
 
   always @(posedge clk or negedge rst_n) begin
@@ -58,38 +58,31 @@ module rv32i (
     if (!rst_n) begin
       pc <= 0;
       pcBranchMissed <= 0;
-
-      for (i = 0; i < 16; i = i + 1) begin
-        bra_history[i] <= 2'b10;
-      end
       bra_history_addressD <= 0;
     end else if (!stall & branchMiss & bra_op) pc <= pcBranchMissed;
-    else if (!stall & pre_bra_op & bra_history[bra_history_address][1]) begin
+    else if (!stall & pre_bra_op & bra_history_now) begin
       pc <= pcbranch;
       pcBranchMissed <= pcplus4;
       bra_history_addressD <= bra_history_address;
-    end else if (!stall & pre_bra_op & !bra_history[bra_history_address][1]) begin
+    end else if (!stall & pre_bra_op & !bra_history_now) begin
       pc <= pcplus4;
       pcBranchMissed <= pcbranch;
       bra_history_addressD <= bra_history_address;
     end else if (!stall & branchMiss & bra_op) pc <= pcBranchMissed;
     else if (!stall) pc <= pcplus4;
 
-    if (bra_op) begin
-      if (btakenD) begin
-        if (bra_history[bra_history_addressD] != 2'b11)
-          bra_history[bra_history_addressD] <= bra_history[bra_history_addressD] + 1;
-      end else if (bra_history[bra_history_addressD] != 2'b00)
-        bra_history[bra_history_addressD] <= bra_history[bra_history_addressD] - 1;
-    end
   end
 
   always @(posedge clk or negedge rst_n) begin
-    if (!rst_n) pcplus4D <= 0;
-    else if (!stall) pcplus4D <= pcplus4;
+    if (!rst_n) begin
+      for (i = 0; i < 32; i = i + 1) begin
+        bra_history[i] <= 2'b10;
+      end
+    end else if (!stall & bra_op & btakenD & bra_history[bra_history_addressD] != 2'b11)
+      bra_history[bra_history_addressD] <= bra_history[bra_history_addressD] + 1;
+    else if (!stall & bra_op & !btakenD & bra_history[bra_history_addressD] != 2'b00)
+      bra_history[bra_history_addressD] <= bra_history[bra_history_addressD] - 1;
   end
-
-
 
   /*  Instruction Decorder Stage */
 
@@ -151,9 +144,9 @@ module rv32i (
   assign ecall_op = (opcode == `OP_SPE) & (funct3 == 3'b000);
   assign ext = alu_op & funct7[5];
 
-  assign	imm = imm_op | lw_op ? {sext, imm_i}: 
-				sw_op ? {sext, imm_s}: 
-				lui_op ? {imm_u,12'b0}: {sext[10:0], imm_j};
+  assign imm = imm_op | lw_op ? {sext, imm_i}:
+				sw_op ? {sext, imm_s}:
+	      lui_op ? {imm_u,12'b0}: {sext[10:0], imm_j};
 
   assign rwe = lw_op | alu_op | imm_op | lui_op;
   assign addcom = (lw_op | sw_op);

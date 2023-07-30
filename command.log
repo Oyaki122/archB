@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version U-2022.12 for linux64 -- Nov 22, 2022
-#@ # Date:   Mon Jul 31 02:31:32 2023
+#@ # Date:   Mon Jul 31 05:13:06 2023
 #@ # Run by: ex34@sirius.am.ics.keio.ac.jp
 #@ 
 
@@ -9404,7 +9404,7 @@ source -echo -verbose /student/home/ex34/contest2023/rv32i.tcl
 #@ read_verilog rfile.v
 #@ read_verilog rv32i.v
 #@ current_design "rv32i"
-#@ create_clock -period 0.5 clk 
+#@ create_clock -period 5.5 clk 
 #@ set_input_delay 2.0 -clock clk [find port "readdata*"]
 #@ set_output_delay 2.0 -clock clk [find port "adr*"]
 #@ set_output_delay 2.0 -clock clk [find port "writedata*"]

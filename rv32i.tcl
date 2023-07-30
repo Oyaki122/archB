@@ -8,7 +8,7 @@ read_verilog alu.v
 read_verilog rfile.v
 read_verilog rv32i.v
 current_design "rv32i"
-create_clock -period 0.5 clk 
+create_clock -period 5.5 clk 
 set_input_delay 2.0 -clock clk [find port "readdata*"]
 set_output_delay 2.0 -clock clk [find port "adr*"]
 set_output_delay 2.0 -clock clk [find port "writedata*"]
